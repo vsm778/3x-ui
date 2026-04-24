@@ -1,0 +1,12 @@
+services:
+  3xui:
+    network_mode: bridge
+    ports:
+      - "10.0.0.1:${PANEL_PORT:-2053}:2053"
+      - "127.0.0.1:1443-1453:1443-1453/tcp"
+      - "127.0.0.1:1443-1453:1443-1453/udp"
+    environment:
+      TZ: "${TZ:-Europe/Moscow}"
+    volumes:
+      - "${HOST_DB_DIR:-./db}:/etc/x-ui/"
+      - "${HOST_CERT_DIR:-./cert}:/root/cert/"
