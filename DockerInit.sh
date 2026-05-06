@@ -3,20 +3,45 @@
 # Optional directory with pre-downloaded files used as fallback when GitHub is unavailable.
 DOWNLOAD_FALLBACK_DIR="${DOWNLOAD_FALLBACK_DIR:-}"
 
+log_info() {
+    echo "[INFO] $*"
+}
+
+log_warn() {
+    echo "[WARN] $*" >&2
+}
+
+log_error() {
+    echo "[ERROR] $*" >&2
+}
+
 download_or_fallback() {
     url="$1"
     file_name="$2"
 
-    if curl -sfLRO "$url"; then
+    log_info "Starting download: $file_name"
+
+    if curl --connect-timeout 10 --max-time 300 -sfLRO "$url"; then
+        log_info "Download completed: $file_name"
         return 0
+    else
+        curl_exit_code=$?
+    fi
+
+    if [ "$curl_exit_code" -eq 28 ]; then
+        log_warn "Download timed out: $file_name"
+    else
+        log_warn "Download failed: $file_name (curl exit code: $curl_exit_code)"
     fi
 
     if [ -n "$DOWNLOAD_FALLBACK_DIR" ] && [ -f "$DOWNLOAD_FALLBACK_DIR/$file_name" ]; then
+        log_info "Using fallback file: $DOWNLOAD_FALLBACK_DIR/$file_name"
         cp "$DOWNLOAD_FALLBACK_DIR/$file_name" "$file_name"
+        log_info "Fallback copy completed: $file_name"
         return 0
     fi
 
-    echo "Failed to download $file_name and fallback file was not found" >&2
+    log_error "Failed to download $file_name and fallback file was not found"
     return 1
 }
 
