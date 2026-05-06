@@ -4,6 +4,7 @@
 FROM golang:1.26-alpine AS builder
 WORKDIR /app
 ARG TARGETARCH
+ARG DOWNLOAD_FALLBACK_DIR
 
 RUN apk --no-cache --update add \
   build-base \
@@ -15,6 +16,7 @@ COPY . .
 
 ENV CGO_ENABLED=1
 ENV CGO_CFLAGS="-D_LARGEFILE64_SOURCE"
+ENV DOWNLOAD_FALLBACK_DIR="${DOWNLOAD_FALLBACK_DIR}"
 RUN go build -ldflags "-w -s" -o build/x-ui main.go
 RUN ./DockerInit.sh "$TARGETARCH"
 

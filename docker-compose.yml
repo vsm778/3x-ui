@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+      args:
+        DOWNLOAD_FALLBACK_DIR: ${DOWNLOAD_FALLBACK_DIR:-}
     container_name: 3xui_app
     # hostname: yourhostname <- optional
     volumes:

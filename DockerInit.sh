@@ -1,4 +1,25 @@
 #!/bin/sh
+
+# Optional directory with pre-downloaded files used as fallback when GitHub is unavailable.
+DOWNLOAD_FALLBACK_DIR="${DOWNLOAD_FALLBACK_DIR:-}"
+
+download_or_fallback() {
+    url="$1"
+    file_name="$2"
+
+    if curl -sfLRO "$url"; then
+        return 0
+    fi
+
+    if [ -n "$DOWNLOAD_FALLBACK_DIR" ] && [ -f "$DOWNLOAD_FALLBACK_DIR/$file_name" ]; then
+        cp "$DOWNLOAD_FALLBACK_DIR/$file_name" "$file_name"
+        return 0
+    fi
+
+    echo "Failed to download $file_name and fallback file was not found" >&2
+    return 1
+}
+
 case $1 in
     amd64)
         ARCH="64"
@@ -27,14 +48,14 @@ case $1 in
 esac
 mkdir -p build/bin
 cd build/bin
-curl -sfLRO "https://github.com/XTLS/Xray-core/releases/download/v26.4.25/Xray-linux-${ARCH}.zip"
+download_or_fallback "https://github.com/XTLS/Xray-core/releases/download/v26.4.25/Xray-linux-${ARCH}.zip" "Xray-linux-${ARCH}.zip"
 unzip "Xray-linux-${ARCH}.zip"
-rm -f "Xray-linux-${ARCH}.zip" geoip.dat geosite.dat
+rm -f "Xray-linux-${ARCH}.zip"
 mv xray "xray-linux-${FNAME}"
-curl -sfLRO https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
-curl -sfLRO https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat
-curl -sfLRo geoip_IR.dat https://github.com/chocolate4u/Iran-v2ray-rules/releases/latest/download/geoip.dat
-curl -sfLRo geosite_IR.dat https://github.com/chocolate4u/Iran-v2ray-rules/releases/latest/download/geosite.dat
-curl -sfLRo geoip_RU.dat https://github.com/runetfreedom/russia-v2ray-rules-dat/releases/latest/download/geoip.dat
-curl -sfLRo geosite_RU.dat https://github.com/runetfreedom/russia-v2ray-rules-dat/releases/latest/download/geosite.dat
+download_or_fallback https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat geoip.dat
+download_or_fallback https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat geosite.dat
+download_or_fallback https://github.com/chocolate4u/Iran-v2ray-rules/releases/latest/download/geoip.dat geoip_IR.dat
+download_or_fallback https://github.com/chocolate4u/Iran-v2ray-rules/releases/latest/download/geosite.dat geosite_IR.dat
+download_or_fallback https://github.com/runetfreedom/russia-v2ray-rules-dat/releases/latest/download/geoip.dat geoip_RU.dat
+download_or_fallback https://github.com/runetfreedom/russia-v2ray-rules-dat/releases/latest/download/geosite.dat geosite_RU.dat
 cd ../../
