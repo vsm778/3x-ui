@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # Optional directory with pre-downloaded files used as fallback when GitHub is unavailable.
 DOWNLOAD_FALLBACK_DIR="${DOWNLOAD_FALLBACK_DIR:-}"
@@ -74,9 +75,12 @@ esac
 mkdir -p build/bin
 cd build/bin
 download_or_fallback "https://github.com/XTLS/Xray-core/releases/download/v26.4.25/Xray-linux-${ARCH}.zip" "Xray-linux-${ARCH}.zip"
+log_info "Extracting archive: Xray-linux-${ARCH}.zip"
 unzip "Xray-linux-${ARCH}.zip"
 rm -f "Xray-linux-${ARCH}.zip"
 mv xray "xray-linux-${FNAME}"
+chmod +x "xray-linux-${FNAME}"
+log_info "Prepared Xray binary: xray-linux-${FNAME}"
 download_or_fallback https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat geoip.dat
 download_or_fallback https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat geosite.dat
 download_or_fallback https://github.com/chocolate4u/Iran-v2ray-rules/releases/latest/download/geoip.dat geoip_IR.dat
