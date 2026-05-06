@@ -3,6 +3,11 @@ set -e
 
 # Optional directory with pre-downloaded files used as fallback when GitHub is unavailable.
 DOWNLOAD_FALLBACK_DIR="${DOWNLOAD_FALLBACK_DIR:-}"
+PROJECT_ROOT="$(pwd)"
+
+if [ -n "$DOWNLOAD_FALLBACK_DIR" ] && [ "${DOWNLOAD_FALLBACK_DIR#/}" = "$DOWNLOAD_FALLBACK_DIR" ]; then
+    DOWNLOAD_FALLBACK_DIR="$PROJECT_ROOT/$DOWNLOAD_FALLBACK_DIR"
+fi
 
 log_info() {
     echo "[INFO] $*"
@@ -19,6 +24,7 @@ log_error() {
 download_or_fallback() {
     url="$1"
     file_name="$2"
+    fallback_path="$DOWNLOAD_FALLBACK_DIR/$file_name"
 
     log_info "Starting download: $file_name"
 
@@ -35,14 +41,18 @@ download_or_fallback() {
         log_warn "Download failed: $file_name (curl exit code: $curl_exit_code)"
     fi
 
-    if [ -n "$DOWNLOAD_FALLBACK_DIR" ] && [ -f "$DOWNLOAD_FALLBACK_DIR/$file_name" ]; then
-        log_info "Using fallback file: $DOWNLOAD_FALLBACK_DIR/$file_name"
-        cp "$DOWNLOAD_FALLBACK_DIR/$file_name" "$file_name"
+    if [ -n "$DOWNLOAD_FALLBACK_DIR" ] && [ -f "$fallback_path" ]; then
+        log_info "Using fallback file: $fallback_path"
+        cp "$fallback_path" "$file_name"
         log_info "Fallback copy completed: $file_name"
         return 0
     fi
 
-    log_error "Failed to download $file_name and fallback file was not found"
+    if [ -n "$DOWNLOAD_FALLBACK_DIR" ]; then
+        log_error "Failed to download $file_name and fallback file was not found at $fallback_path"
+    else
+        log_error "Failed to download $file_name and DOWNLOAD_FALLBACK_DIR is not set"
+    fi
     return 1
 }
 
