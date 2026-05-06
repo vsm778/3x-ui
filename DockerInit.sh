@@ -28,7 +28,7 @@ download_or_fallback() {
 
     log_info "Starting download: $file_name"
 
-    if curl --connect-timeout 10 --max-time 300 -sfLRO "$url"; then
+    if curl --connect-timeout 10 --max-time 300 -sfLR -o "$file_name" "$url"; then
         log_info "Download completed: $file_name"
         return 0
     else
