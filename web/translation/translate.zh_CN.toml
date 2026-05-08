@@ -218,6 +218,7 @@
 "customGeoErrNotFound" = "未找到自定义 geo 源"
 "customGeoErrDownload" = "下载失败"
 "customGeoErrUpdateAllIncomplete" = "有一个或多个自定义 geo 源更新失败"
+"customGeoEmpty" = "暂无自定义 geo 源 — 点击「添加」以创建"
 
 [pages.inbounds]
 "allTimeTraffic" = "累计总流量"
@@ -765,7 +766,7 @@
 "traffic" = "🚦 流量：{{ .Total }} (↑{{ .Upload }},↓{{ .Download }})\r\n"
 "xrayStatus" = "ℹ️ Xray 状态：{{ .State }}\r\n"
 "username" = "👤 用户名：{{ .Username }}\r\n"
-"password" = "👤 密码: {{ .Password }}\r\n"
+"reason" = "❗️ 原因：{{ .Reason }}\r\n"
 "time" = "⏰ 时间：{{ .Time }}\r\n"
 "inbound" = "📍 入站：{{ .Remark }}\r\n"
 "port" = "🔌 端口：{{ .Port }}\r\n"

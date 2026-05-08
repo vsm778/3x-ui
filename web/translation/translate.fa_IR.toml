@@ -218,6 +218,7 @@
 "customGeoErrNotFound" = "منبع geo سفارشی یافت نشد"
 "customGeoErrDownload" = "بارگیری ناموفق بود"
 "customGeoErrUpdateAllIncomplete" = "به‌روزرسانی یک یا چند منبع geo سفارشی ناموفق بود"
+"customGeoEmpty" = "هنوز منبع geo سفارشی‌ای ثبت نشده — برای ایجاد روی «افزودن» کلیک کنید"
 
 [pages.inbounds]
 "allTimeTraffic" = "کل ترافیک"
@@ -765,7 +766,7 @@
 "traffic" = "🚦 ترافیک: {{ .Total }} (↑{{ .Upload }},↓{{ .Download }})\r\n"
 "xrayStatus" = "ℹ️ وضعیت‌ایکس‌ری: {{ .State }}\r\n"
 "username" = "👤 نام‌کاربری: {{ .Username }}\r\n"
-"password" = "👤 رمز عبور: {{ .Password }}\r\n"
+"reason" = "❗️ دلیل: {{ .Reason }}\r\n"
 "time" = "⏰ زمان: {{ .Time }}\r\n"
 "inbound" = "📍 نام‌ورودی: {{ .Remark }}\r\n"
 "port" = "🔌 پورت: {{ .Port }}\r\n"

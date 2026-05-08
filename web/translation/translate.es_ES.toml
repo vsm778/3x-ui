@@ -218,6 +218,7 @@
 "customGeoErrNotFound" = "Fuente geo personalizada no encontrada"
 "customGeoErrDownload" = "Error de descarga"
 "customGeoErrUpdateAllIncomplete" = "No se pudieron actualizar una o más fuentes geo personalizadas"
+"customGeoEmpty" = "Aún no hay fuentes geo personalizadas — haz clic en Añadir para crear una"
 
 [pages.inbounds]
 "allTimeTraffic" = "Tráfico Total"
@@ -765,7 +766,7 @@
 "traffic" = "🚦 Tráfico: {{ .Total }} (↑{{ .Upload }},↓{{ .Download }})\r\n"
 "xrayStatus" = "ℹ️ Estado de Xray: {{ .State }}\r\n"
 "username" = "👤 Nombre de usuario: {{ .Username }}\r\n"
-"password" = "👤 Contraseña: {{ .Password }}\r\n"
+"reason" = "❗️ Motivo: {{ .Reason }}\r\n"
 "time" = "⏰ Hora: {{ .Time }}\r\n"
 "inbound" = "📍 Inbound: {{ .Remark }}\r\n"
 "port" = "🔌 Puerto: {{ .Port }}\r\n"

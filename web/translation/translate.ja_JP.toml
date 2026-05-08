@@ -218,6 +218,7 @@
 "customGeoErrNotFound" = "カスタム geo ソースが見つかりません"
 "customGeoErrDownload" = "ダウンロードに失敗しました"
 "customGeoErrUpdateAllIncomplete" = "カスタム geo ソースの 1 件以上を更新できませんでした"
+"customGeoEmpty" = "カスタム geo ソースはまだありません — 「追加」をクリックして作成してください"
 
 [pages.inbounds]
 "allTimeTraffic" = "総トラフィック"
@@ -765,7 +766,7 @@
 "traffic" = "🚦 トラフィック：{{ .Total }} (↑{{ .Upload }},↓{{ .Download }})\r\n"
 "xrayStatus" = "ℹ️ Xrayステータス：{{ .State }}\r\n"
 "username" = "👤 ユーザー名：{{ .Username }}\r\n"
-"password" = "👤 パスワード: {{ .Password }}\r\n"
+"reason" = "❗️ 理由：{{ .Reason }}\r\n"
 "time" = "⏰ 時間：{{ .Time }}\r\n"
 "inbound" = "📍 インバウンド：{{ .Remark }}\r\n"
 "port" = "🔌 ポート：{{ .Port }}\r\n"
